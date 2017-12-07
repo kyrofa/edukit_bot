@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 2.8.3)
-project(edukit-bot)
+project(edukit_bot)
 
 ## Compile as C++11, supported in ROS Kinetic and newer
 # add_compile_options(-std=c++11)
@@ -158,8 +158,13 @@ include_directories(
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
 install(PROGRAMS
-  scripts/driver_node
-  DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+	scripts/driver_node
+	DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
+)
+
+## Install launch files
+install(DIRECTORY launch
+	DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
 
 ## Mark executables and/or libraries for installation
