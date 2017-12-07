@@ -1,19 +1,51 @@
 #!/usr/bin/env python
 
 import rospy
+from std_msgs.msg import Float32
 from geometry_msgs.msg import Twist
 
 
-def set_new_velocity(message):
-    print('Got new velocity:')
-    print(message)
+class Controller:
+    def __init__(self):
+        rospy.init_node('controller')
 
+        self._speed = 0
+        self._angle = 0
+        self._last_received = rospy.get_time()
+        self._wheel_base = rospy.get_param('~wheel_base', 0.091)
+        self._timeout = rospy.get_param('~timeout', 2)  # seconds
+        self._rate = rospy.get_param('~rate', 10)
+
+        # Setup publisher for left and right wheel speeds
+        self.left_wheel_publisher = rospy.Publisher('left', Float32, queue_size=10)
+        self.right_wheel_publisher = rospy.Publisher('right', Float32, queue_size=10)
+
+        # Setup subscriber for velocity twist message
+        rospy.Subscriber('cmd_vel', Twist, self.velocity_received_callback)
+
+    def velocity_received_callback(self, message):
+        self._speed = message.linear.x
+        self._angle = message.angular.z
+        self._last_received = rospy.get_time()
+
+    def run(self):
+        rate = rospy.Rate(self._rate)
+
+        while not rospy.is_shutdown():
+          if (rospy.get_time() - self._last_received) < self._timeout:
+              right_wheel = (self._angle * self._wheel_base)/2 + self._speed
+              left_wheel = self._speed*2 - right_wheel
+
+              self.left_wheel_publisher.publish(left_wheel)
+              self.right_wheel_publisher.publish(right_wheel)
+          rate.sleep()
+            
 
 def main():
-    rospy.init_node('controller')
-    rospy.Subscriber('cmd_vel', Twist, set_new_velocity)
+    controller = Controller()
 
-    rospy.spin()
+    # Run controller. This will block
+    controller.run()
 
 
 if __name__ == '__main__':
