@@ -18,7 +18,7 @@
     </visual>
   </link>
 
-  <link name="right_wheel">
+  <link name="wheel_right">
     <visual>
       <!-- Rotate 90 degrees -->
       <origin rpy="1.57075 0 0" xyz="0 0 0"/>
@@ -28,14 +28,14 @@
       <material name="red"/>
     </visual>
   </link>
-  <joint name="right_wheel_joint" type="continuous">
+  <joint name="wheel_right_joint" type="continuous">
     <axis rpy="0 0 0" xyz="0 1 0" />
     <parent link="base_link"/>
-    <child link="right_wheel"/>
+    <child link="wheel_right"/>
     <origin rpy="0 0 0" xyz="0.056 0.058 0"/>
   </joint>
 
-  <link name="left_wheel">
+  <link name="wheel_left">
     <visual>
       <!-- Rotate 90 degrees -->
       <origin rpy="1.57075 0 0" xyz="0 0 0"/>
@@ -45,10 +45,10 @@
       <material name="red"/>
     </visual>
   </link>
-  <joint name="left_wheel_joint" type="continuous">
+  <joint name="wheel_left_joint" type="continuous">
     <axis rpy="0 0 0" xyz="0 1 0" />
     <parent link="base_link"/>
-    <child link="left_wheel"/>
+    <child link="wheel_left"/>
     <origin rpy="0 0 0" xyz="0.056 -0.058 0"/>
   </joint>
 

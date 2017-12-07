@@ -159,6 +159,7 @@ include_directories(
 ## in contrast to setup.py, you can choose the destination
 install(PROGRAMS
 	scripts/driver_node
+	scripts/controller_node
 	DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

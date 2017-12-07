@@ -1,0 +1,14 @@
+<launch>
+	<param name="robot_description" command="cat $(find edukit_bot)/urdf/edukit_bot.urdf" />
+	<rosparam file="$(find edukit_bot)/config/controller.yaml" command="load"/>
+
+	<group ns="edukit_bot">
+
+	<!-- Load controller manager -->
+	<node name="ros_control_controller_manager" pkg="controller_manager" type="spawner" output="screen" args="diff_drive_controller" />
+
+	<!-- Convert joint states to /tf tranforms -->
+	<node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher"/>
+
+	</group>
+</launch>
