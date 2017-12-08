@@ -22,4 +22,13 @@ parts:
 apps:
   launch:
     command: roslaunch edukit_bot edukit_bot.launch
-    plugs: [network, network-bind, physical-memory-control]
+    plugs:
+      # Basic networking
+      - network
+      - network-bind
+
+      # Needed for access to gamepad
+      - joystick
+
+      # Needed for GPIO memory-mapping
+      - physical-memory-control
