@@ -42,7 +42,7 @@ class Motor:
             self._forward_pwm.start(speed)
             self._backward_pwm.start(0)
 
-class Driver
+class Driver:
     def __init__(self):
         rospy.init_node('driver')
 
@@ -53,19 +53,19 @@ class Driver
 
         self._left_motor = Motor(10, 9)
         self._right_motor = Motor(8, 7)
-        self._left_speed = 0
-        self._right_speed = 0
+        self._left_speed_percent = 0
+        self._right_speed_percent = 0
 
         # Setup subscriber for left and right wheel speeds
         rospy.Subscriber('left', Float32, self.left_wheel_callback)
         rospy.Subscriber('right', Float32, self.right_wheel_callback)
 
     def left_wheel_callback(self, message):
-        self._left_speed = message.data
+        self._left_speed_percent = message.data*100
         self._last_received = rospy.get_time()
 
     def right_wheel_callback(self, message):
-        self._right_speed = message.data
+        self._right_speed_percent = message.data*100
         self._last_received = rospy.get_time()
 
     def run(self):
@@ -73,8 +73,8 @@ class Driver
 
         while not rospy.is_shutdown():
           if (rospy.get_time() - self._last_received) < self._timeout:
-              self._left_motor.move(self._left_speed)
-              self._right_motor.move(self._right_speed)
+              self._left_motor.move(self._left_speed_percent)
+              self._right_motor.move(self._right_speed_percent)
           else:
               self._left_motor.move(0)
               self._right_motor.move(0)

@@ -1,3 +1,4 @@
 <launch>
 	<node name="controller" pkg="edukit_bot" type="controller_node" output="screen" />
+	<node name="driver" pkg="edukit_bot" type="driver_node" output="screen" />
 </launch>
