@@ -1,4 +1,4 @@
 <launch>
-	<include file="$(find edukit_bot)/launch/_teleop.launch" />
-	<include file="$(find edukit_bot)/launch/_controllers.launch" />
+	<include file="$(find edukit_bot)/launch/includes/teleop.launch.xml" />
+	<include file="$(find edukit_bot)/launch/includes/controllers.launch.xml" />
 </launch>
